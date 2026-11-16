@@ -1,0 +1,43 @@
+{
+  // Root config = TYPE-CHECKING ONLY, for everything: src, tests, fixtures.
+  // Building dist/ uses tsconfig.build.json, which extends this file.
+  // (tsconfig.json allows comments — we use them to explain *why* options are on.)
+  "compilerOptions": {
+    // --- Module system -------------------------------------------------------
+    // "nodenext" makes TypeScript follow Node's real rules: since package.json
+    // has "type": "module", every .ts file here is treated as ESM.
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    // JS features to emit/allow. ES2023 runs natively on Node 22+.
+    "target": "es2023",
+    "lib": ["es2023"],
+    // TS 6+ no longer auto-includes every @types package; opt in explicitly.
+    "types": ["node"],
+
+    // --- Native type stripping (`node src/cli.ts`) ---------------------------
+    // Node deletes types and runs what's left, so we must write code where
+    // "delete the types" is always enough:
+    //   - erasableSyntaxOnly: ban TS-only runtime syntax (enum, namespace,
+    //     constructor parameter properties). Use unions / plain objects instead.
+    "erasableSyntaxOnly": true,
+    //   - verbatimModuleSyntax: force `import type { X }` for type-only imports,
+    //     otherwise Node would try to import a value that doesn't exist.
+    "verbatimModuleSyntax": true,
+    //   - Let us write `./graph.ts` in imports (what Node needs at dev time),
+    //     and rewrite it to `./graph.js` when tsc builds dist/.
+    "allowImportingTsExtensions": true,
+    "rewriteRelativeImportExtensions": true,
+
+    // --- Strictness ----------------------------------------------------------
+    "strict": true,
+    // arr[i] and obj[key] are typed `T | undefined` — catches lots of
+    // "assumed the config had that field" bugs, which is exactly our domain.
+    "noUncheckedIndexedAccess": true,
+    "noFallthroughCasesInSwitch": true,
+    // Don't type-check other people's .d.ts files (faster, fewer false alarms).
+    "skipLibCheck": true,
+
+    "noEmit": true
+  },
+  "include": ["src", "test", "fixtures"]
+}

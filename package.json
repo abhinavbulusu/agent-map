@@ -1,0 +1,33 @@
+{
+  "name": "agentmap",
+  "version": "0.1.0",
+  "description": "Chrome DevTools for AI agents: map, health-check and watch every connection your agent makes.",
+  "type": "module",
+  "bin": {
+    "agentmap": "./dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "assets"
+  ],
+  "engines": {
+    "node": ">=22.18"
+  },
+  "scripts": {
+    "dev": "node src/cli.ts",
+    "typecheck": "tsc",
+    "build": "tsc -p tsconfig.build.json",
+    "start": "node dist/cli.js",
+    "test": "node --test \"test/**/*.test.ts\"",
+    "mock-llm": "node fixtures/mock-llm/server.ts"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^22.20.5",
+    "typescript": "^7.0.2"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.2",
+    "commander": "^15.1.0"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "mcpServers": {
+    "bug-zoo": {
+      "command": "node",
+      "args": ["../bug-zoo-mcp/server.ts"]
+    },
+    "broken-server": {
+      "command": "mcp-server-that-does-not-exist",
+      "args": ["--stdio"]
+    },
+    "weather": {
+      "command": "node",
+      "args": ["../bug-zoo-mcp/server.ts", "--name", "weather", "--require-env", "WEATHER_API_KEY"],
+      "env": { "WEATHER_API_KEY": "${WEATHER_API_KEY}" }
+    },
+    "docs-api": {
+      "type": "http",
+      "url": "http://127.0.0.1:59999/mcp"
+    }
+  }
+}

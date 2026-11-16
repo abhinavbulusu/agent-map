@@ -1,0 +1,12 @@
+{
+  // Build config: compile ONLY src/ into dist/ (what gets published).
+  // Inherits every rule from tsconfig.json, then turns emitting back on.
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "rootDir": "src",
+    "outDir": "dist",
+    "sourceMap": true
+  },
+  "include": ["src"]
+}

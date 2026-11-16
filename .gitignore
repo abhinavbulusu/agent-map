@@ -1,0 +1,14 @@
+node_modules/
+dist/
+*.log
+.DS_Store
+
+# Never commit secrets. agentmap reads these locally and never sends them anywhere.
+.env
+.env.*
+!.env.example
+
+# agentmap's own recordings (contain prompts and tool outputs; auth headers are redacted)
+.agentmap/
+.venv/
+__pycache__/

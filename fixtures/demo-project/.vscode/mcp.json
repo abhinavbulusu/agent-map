@@ -1,0 +1,16 @@
+// VS Code allows comments in this file (JSONC) — agentmap must parse them.
+{
+  "inputs": [
+    { "type": "promptString", "id": "search-key", "description": "Search API key", "password": true }
+  ],
+  "servers": {
+    // VS Code prompts for ${input:search-key} when the server starts,
+    // so agentmap can't know the value: it reports "unknown", not "missing".
+    "search": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["${workspaceFolder}/../bug-zoo-mcp/server.ts", "--name", "search"],
+      "env": { "SEARCH_API_KEY": "${input:search-key}" },
+    },
+  },
+}
