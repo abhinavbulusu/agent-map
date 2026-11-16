@@ -54,6 +54,9 @@
     return str.length > n ? str.slice(0, n - 1) + "…" : str;
   };
   const fmt = (n) => Number(n || 0).toLocaleString("en-US");
+  // Show short names; the full path stays available as a hover tooltip.
+  const baseName = (p) => String(p || "").split(/[\\/]/).filter(Boolean).pop() || String(p || "");
+  const shortCommand = (cmd) => [baseName(cmd[0]), ...cmd.slice(1)].join(" ");
   const ICON = { ok: "✔", warn: "⚠", error: "✖", unknown: "○" };
   const KIND = { agent: "agent", llm: "llm", tool: "tool", mcp_server: "mcp server", http_endpoint: "http", env_var: "env var" };
   const SOURCE = { system: "system", user: "user", assistant: "assistant", tool_call: "tool call", tool_result: "tool result", tool_schema: "tool schemas" };
@@ -86,8 +89,8 @@
     const sess = snap.session;
     let status;
     if (!sess) status = h("span", { class: "muted" }, "no live session — run ", h("code", {}, "agentmap run -- <cmd>"));
-    else if (sess.running) status = h("span", { class: "pill live" }, "● live · ", clip(sess.command.join(" "), 48));
-    else status = h("span", { class: "pill" }, "recorded · ", clip(sess.command.join(" "), 48), ` · exited ${sess.exitCode ?? "?"}`);
+    else if (sess.running) status = h("span", { class: "pill live", title: sess.command.join(" ") }, "● live · ", clip(shortCommand(sess.command), 48));
+    else status = h("span", { class: "pill", title: sess.command.join(" ") }, "recorded · ", clip(shortCommand(sess.command), 48), ` · exited ${sess.exitCode ?? "?"}`);
 
     const counts = { error: 0, warn: 0 };
     for (const n of snap.graph.nodes) if (n.kind !== "agent" && counts[n.status] !== undefined) counts[n.status]++;
@@ -95,7 +98,7 @@
 
     fill($("#top"),
       h("strong", { class: "brand" }, "agentmap"),
-      h("span", { class: "muted path", title: snap.projectDir }, snap.projectDir),
+      h("span", { class: "muted path", title: snap.projectDir }, baseName(snap.projectDir)),
       status,
       snap.check
         ? h("span", { class: "muted" }, "checked ", new Date(snap.check.checkedAt).toLocaleTimeString())

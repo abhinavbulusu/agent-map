@@ -2,6 +2,27 @@
   "name": "agentmap",
   "version": "0.1.0",
   "description": "Chrome DevTools for AI agents: map, health-check and watch every connection your agent makes.",
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "ai-agents",
+    "llm",
+    "debugging",
+    "observability",
+    "openai",
+    "anthropic",
+    "cli"
+  ],
+  "author": "abhinavbulusu",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abhinavbulusu/agent-map.git"
+  },
+  "homepage": "https://github.com/abhinavbulusu/agent-map#readme",
+  "bugs": {
+    "url": "https://github.com/abhinavbulusu/agent-map/issues"
+  },
   "type": "module",
   "bin": {
     "agentmap": "./dist/cli.js"
@@ -21,13 +42,12 @@
     "test": "node --test \"test/**/*.test.ts\"",
     "mock-llm": "node fixtures/mock-llm/server.ts"
   },
-  "license": "MIT",
-  "devDependencies": {
-    "@types/node": "^22.20.5",
-    "typescript": "^7.0.2"
-  },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.32.2",
     "commander": "^15.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.5",
+    "typescript": "^7.0.2"
   }
 }
